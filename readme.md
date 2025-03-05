@@ -8,7 +8,7 @@ The Currency Converter TUI is a terminal-based application built in Go that fetc
 
 - **Fetch Real-Time Exchange Rates:** The app fetches the latest exchange rates from a public API and saves them locally in a JSON file for offline use.
 
-<a href="https://www.exchangerate-api.com">Rates By Exchange Rate API</a>
+    <a href="https://www.exchangerate-api.com">Rates By Exchange Rate API</a>
 
 - **Currency Conversion:** Converts an amount from one currency to multiple other currencies.
 
@@ -18,33 +18,34 @@ The Currency Converter TUI is a terminal-based application built in Go that fetc
 
 ## How-to-use the App
 
-1. Choose Origin Currency
+### 1. Choose Origin Currency
 
 First, select the origin currency. The current supported options are:
 
-    + __USD__ - United States Dollar
-    + __JPY__ - Japanese Yen
-    + __BGN__ - Bulgarian Lev
-    + __EUR__ - Euro
++ **USD** - United States Dollar
++ **JPY** - Japanese Yen
++ **BGN** - Bulgarian Lev
++ **EUR** - Euro
 
-2. Select Target Currencies
+### 2. Select Target Currencies
 
 You can select one or more target currencies for conversion. You’ll be provided with a list of available currencies based on the fetched exchange rates.
 
-3. Input the Amount to Convert
+### 3. Input the Amount to Convert
 
 After selecting the currencies, enter the amount of money you want to convert. The app will display the converted amounts for each selected target currency.
 
-4. Confirmation
+### 4. Confirmation
 
 Once everything is set up, you will be asked to confirm whether you'd like to proceed with the conversion or exit the app.
 
 ## Future Improvements
 
-- [] Progress bar implementation.
-- [] Make it pretty!!!
-- [] Option to save conversion history for future reference.
-- [] More advanced CLI features such as customizable themes and configurations.
+- [ ] Progress bar implementation.
+- [ ] Organise the target currencies in a better way.
+- [ ] Make it pretty!!!
+- [ ] Option to save conversion history for future reference.
+- [ ] More advanced CLI features such as customizable themes and configurations.
 
 ## License
 
