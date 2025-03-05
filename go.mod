@@ -1,6 +1,6 @@
-module CurrencyConverterTUI
+module github.com/kaiserdmc/CurrencyConverterTUI
 
-go 1.23
+go 1.24.0
 
 require (
 	github.com/charmbracelet/bubbles v0.20.0
