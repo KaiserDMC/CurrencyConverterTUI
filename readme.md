@@ -49,4 +49,4 @@ Once everything is set up, you will be asked to confirm whether you'd like to pr
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](../main/LICENSE) file for details.
