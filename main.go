@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/charmbracelet/bubbles/progress"
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/huh"
@@ -22,6 +23,20 @@ type ExchangeRates struct {
 	Rates              map[string]decimal.Decimal `json:"rates"`
 	TimeNextUpdateUnix int64                      `json:"time_next_update_unix"`
 }
+
+var (
+	originCurrency    string
+	convertedCurrency []string
+	inputText         string
+	helpStyle         = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262")).Render
+)
+
+type model struct {
+	table    table.Model
+	progress progress.Model
+}
+
+type tickMsg time.Time
 
 func fetchAndSaveExchangeRates(filename string) error {
 	url := "https://open.er-api.com/v6/latest/USD"
@@ -43,6 +58,7 @@ func fetchAndSaveExchangeRates(filename string) error {
 	}
 
 	fmt.Println("Exchange rates saved to", filename)
+
 	return nil
 }
 
@@ -59,54 +75,6 @@ func readExchangeRates(filename string) (*ExchangeRates, error) {
 	}
 
 	return &exchangeData, nil
-}
-
-var (
-	originCurrency    string
-	convertedCurrency []string
-	inputText         string
-	red               = lipgloss.AdaptiveColor{Light: "#FE5F86", Dark: "FE5F86"}
-	indigo            = lipgloss.AdaptiveColor{Light: "#5A56E0", Dark: "#7571F9"}
-	green             = lipgloss.AdaptiveColor{Light: "#02BA84", Dark: "#02BF87"}
-)
-
-type Styles struct {
-	Base,
-	HeaderText,
-	Status,
-	StatusHeader,
-	Highlight,
-	ErrorHeaderText,
-	Help lipgloss.Style
-}
-
-func NewStyles(lg *lipgloss.Renderer) *Styles {
-	s := Styles{}
-	s.Base = lg.NewStyle().
-		Padding(1, 4, 0, 1)
-	s.HeaderText = lg.NewStyle().
-		Foreground(indigo).
-		Bold(true).
-		Padding(0, 1, 0, 2)
-	s.Status = lg.NewStyle().
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(indigo).
-		PaddingLeft(1).
-		MarginTop(1)
-	s.StatusHeader = lg.NewStyle().
-		Foreground(green).
-		Bold(true)
-	s.Highlight = lg.NewStyle().
-		Foreground(lipgloss.Color("212"))
-	s.ErrorHeaderText = s.HeaderText.
-		Foreground(red)
-	s.Help = lg.NewStyle().
-		Foreground(lipgloss.Color("240"))
-	return &s
-}
-
-type model struct {
-	table table.Model
 }
 
 func (m model) Init() tea.Cmd {
@@ -170,14 +138,6 @@ func main() {
 	for currency := range exchangeData.Rates {
 		currencyOptions = append(currencyOptions, huh.NewOption(currency, currency))
 	}
-
-	// var formStyle = lipgloss.NewStyle().
-	// 	Border(lipgloss.RoundedBorder()).
-	// 	BorderForeground(lipgloss.Color("#FFA500")).
-	// 	Padding(1, 2).
-	// 	Margin(1, 2).
-	// 	Width(50).
-	// 	Align(lipgloss.Center)
 
 	var confirmExit bool
 
