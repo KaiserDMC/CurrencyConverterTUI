@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/charmbracelet/bubbles/progress"
@@ -77,6 +78,24 @@ func readExchangeRates(filename string) (*ExchangeRates, error) {
 	return &exchangeData, nil
 }
 
+func getStoragePath(filename string) string {
+	// Get the absolute path of the executable
+	exePath, err := os.Executable()
+	if err != nil {
+		fmt.Println("Error getting executable path:", err)
+		os.Exit(1)
+	}
+
+	// Get the directory where the executable is located
+	exeDir := filepath.Dir(exePath)
+
+	// Go back to project root (assuming binary is in /bin)
+	projectRoot := filepath.Join(exeDir, "..")
+
+	// Construct the full path
+	return filepath.Join(projectRoot, "storage", filename)
+}
+
 func (m model) Init() tea.Cmd {
 	return nil
 }
@@ -100,7 +119,7 @@ func (m model) View() string {
 }
 
 func main() {
-	filePath := "../../storage/exchangeRates.json"
+	filePath := getStoragePath("exchangeRates.json")
 
 	//wd, _ := os.Getwd()
 	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
@@ -227,5 +246,4 @@ func main() {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-
 }
